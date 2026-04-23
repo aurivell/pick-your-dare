@@ -22,7 +22,7 @@ const App = () => {
   };
 
   return (
-    <div className="fixed inset-0 w-screen h-screen text-white overflow-hidden flex items-center justify-center" style={{ fontFamily: "'Quicksand', sans-serif", background: 'linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #db2777 100%)' }}>
+    <div className="fixed inset-0 w-screen h-screen text-white overflow-hidden" style={{ fontFamily: "'Quicksand', sans-serif", background: 'linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #db2777 100%)' }}>
       
       {/* Subtle noise overlay for texture */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E")' }} />
@@ -70,9 +70,14 @@ const App = () => {
         {/* VIEW 3: GAME SCREEN */}
         {view === 'game' && (
           <motion.div 
-            key="game" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            className="glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] min-h-[450px] flex flex-col justify-between items-center text-center relative overflow-hidden"
+            key="game" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 w-screen h-screen flex items-center justify-center"
           >
+            <motion.div 
+              initial={{ y: 50, opacity: 0 }} 
+              animate={{ y: 0, opacity: 1 }}
+              className="glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] min-h-[450px] flex flex-col justify-between items-center text-center relative overflow-hidden"
+            >
             {/* Gender-based gradient accent */}
             <div className={`absolute -top-20 -right-20 w-40 h-40 blur-[100px] rounded-full transition-all duration-1000 ${currentGender === 'male' ? 'bg-blue-500/40' : 'bg-fuchsia-500/40'}`} />
             <div className={`absolute -bottom-20 -left-20 w-40 h-40 blur-[100px] rounded-full transition-all duration-1000 ${currentGender === 'male' ? 'bg-blue-400/30' : 'bg-fuchsia-400/30'}`} />
@@ -122,6 +127,7 @@ const App = () => {
                 REVEAL DARE
               </span>
             </motion.button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
