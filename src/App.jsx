@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Venus, Mars, Lock, RefreshCw, ChevronLeft } from 'lucide-react';
+import { Venus, Mars, RefreshCw, ChevronLeft } from 'lucide-react';
 
 const CONFIG = {
   PASSWORD: "adishi",
@@ -11,17 +11,9 @@ const CONFIG = {
 };
 
 const App = () => {
-  const [view, setView] = useState('gatekeeper'); 
-  const [gender, setGender] = useState(null);
+  const [view, setView] = useState('selection'); 
   const [currentGender, setCurrentGender] = useState(null);
   const [currentDare, setCurrentDare] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
-
-  const handleAuth = (e) => {
-    e.preventDefault();
-    if (passwordInput === CONFIG.PASSWORD) setView('selection');
-    else alert("Access Denied");
-  };
 
   const handleRandomize = () => {
     const list = CONFIG.DARES[currentGender];
@@ -30,68 +22,17 @@ const App = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-center text-white overflow-hidden" style={{ fontFamily: "'Quicksand', sans-serif", background: 'linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #db2777 100%)' }}>
+    <div className="fixed inset-0 w-screen h-screen text-white overflow-hidden flex items-center justify-center" style={{ fontFamily: "'Quicksand', sans-serif", background: 'linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #db2777 100%)' }}>
       
       {/* Subtle noise overlay for texture */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E")' }} />
 
       <AnimatePresence mode="wait">
-        {/* VIEW 1: GATEKEEPER */}
-        {view === 'gatekeeper' && (
-          <motion.div 
-            key="gate" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.1 }}
-            className="z-10 glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] text-center"
-          >
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.2 }}
-              className="bg-white/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20 shadow-lg"
-            >
-              <Lock size={24} className="text-white/80" />
-            </motion.div>
-            <motion.h1 
-              initial={{ opacity: 0, y: -10 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.4 }}
-              className="display-font text-4xl font-light tracking-tighter mb-2"
-            >
-              Vault
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              transition={{ delay: 0.6 }}
-              className="text-white/60 text-sm mb-8"
-            >
-              Enter the secret key to proceed
-            </motion.p>
-            <motion.form 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.8 }}
-              onSubmit={handleAuth} 
-              className="space-y-4"
-            >
-              <input 
-                type="password" 
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-center text-xl tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-white/50 transition-all placeholder-white/30"
-                placeholder="••••"
-              />
-              <button className="w-full bg-white/20 text-white font-bold py-4 rounded-2xl hover:bg-white/30 transition-all active:scale-95 border border-white/10">
-                Unlock Experience
-              </button>
-            </motion.form>
-          </motion.div>
-        )}
-
-        {/* VIEW 2: SELECTION */}
+        {/* VIEW 1: SELECTION */}
         {view === 'selection' && (
           <motion.div 
             key="select" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="z-10 fixed inset-0 flex"
+            className="fixed inset-0 flex w-screen h-screen"
           >
             <motion.div 
               initial={{ x: -50, opacity: 0 }} 
@@ -105,7 +46,7 @@ const App = () => {
                 label="Masculine" 
                 color="hover:shadow-[0_0_80px_-12px_rgba(59,130,246,0.8)] hover:border-blue-300/60"
                 accent="text-blue-200"
-                onClick={() => { setGender('male'); setCurrentGender('male'); setView('game'); }}
+                onClick={() => { setCurrentGender('male'); setView('game'); }}
               />
             </motion.div>
             <motion.div 
@@ -120,7 +61,7 @@ const App = () => {
                 label="Feminine" 
                 color="hover:shadow-[0_0_80px_-12px_rgba(217,70,239,0.8)] hover:border-fuchsia-300/60"
                 accent="text-fuchsia-200"
-                onClick={() => { setGender('female'); setCurrentGender('female'); setView('game'); }}
+                onClick={() => { setCurrentGender('female'); setView('game'); }}
               />
             </motion.div>
           </motion.div>
@@ -130,7 +71,7 @@ const App = () => {
         {view === 'game' && (
           <motion.div 
             key="game" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            className="z-10 glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] min-h-[450px] flex flex-col justify-between items-center text-center relative overflow-hidden"
+            className="glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] min-h-[450px] flex flex-col justify-between items-center text-center relative overflow-hidden"
           >
             {/* Gender-based gradient accent */}
             <div className={`absolute -top-20 -right-20 w-40 h-40 blur-[100px] rounded-full transition-all duration-1000 ${currentGender === 'male' ? 'bg-blue-500/40' : 'bg-fuchsia-500/40'}`} />
