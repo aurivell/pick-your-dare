@@ -40,7 +40,7 @@ const App = () => {
         {view === 'gatekeeper' && (
           <motion.div 
             key="gate" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.1 }}
-            className="z-10 glass-panel-enhanced p-6 sm:p-10 w-[90%] max-w-[400px] text-center"
+            className="z-10 glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] text-center"
           >
             <motion.div 
               initial={{ opacity: 0, y: -20 }} 
@@ -91,34 +91,35 @@ const App = () => {
         {view === 'selection' && (
           <motion.div 
             key="select" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="z-10 w-full max-w-[500px] px-6"
+            className="z-10 fixed inset-0 flex"
           >
-            <motion.h2 
-              initial={{ opacity: 0, y: -20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.2 }}
-              className="display-font text-center text-3xl font-extralight tracking-widest mb-10 opacity-90 uppercase"
-            >
-              Identity
-            </motion.h2>
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.4 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              initial={{ x: -50, opacity: 0 }} 
+              animate={{ x: 0, opacity: 1 }} 
+              transition={{ delay: 0.2 }}
+              className="flex-1 flex items-center justify-center bg-gradient-to-r from-blue-600/20 to-blue-500/10 relative overflow-hidden"
             >
-              <SelectionCard 
-                icon={<Mars size={48}/>} 
+              <div className="absolute inset-0 bg-blue-600/5 blur-3xl rounded-full" />
+              <SelectionHalf 
+                icon={<Mars size={64}/>} 
                 label="Masculine" 
-                color="hover:shadow-[0_0_60px_-12px_rgba(59,130,246,0.6)] hover:border-blue-400/50"
-                accent="text-blue-300"
+                color="hover:shadow-[0_0_80px_-12px_rgba(59,130,246,0.8)] hover:border-blue-300/60"
+                accent="text-blue-200"
                 onClick={() => { setGender('male'); setCurrentGender('male'); setView('game'); }}
               />
-              <SelectionCard 
-                icon={<Venus size={48}/>} 
+            </motion.div>
+            <motion.div 
+              initial={{ x: 50, opacity: 0 }} 
+              animate={{ x: 0, opacity: 1 }} 
+              transition={{ delay: 0.4 }}
+              className="flex-1 flex items-center justify-center bg-gradient-to-l from-fuchsia-600/20 to-fuchsia-500/10 relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-fuchsia-600/5 blur-3xl rounded-full" />
+              <SelectionHalf 
+                icon={<Venus size={64}/>} 
                 label="Feminine" 
-                color="hover:shadow-[0_0_60px_-12px_rgba(217,70,239,0.6)] hover:border-fuchsia-400/50"
-                accent="text-fuchsia-300"
+                color="hover:shadow-[0_0_80px_-12px_rgba(217,70,239,0.8)] hover:border-fuchsia-300/60"
+                accent="text-fuchsia-200"
                 onClick={() => { setGender('female'); setCurrentGender('female'); setView('game'); }}
               />
             </motion.div>
@@ -129,7 +130,7 @@ const App = () => {
         {view === 'game' && (
           <motion.div 
             key="game" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            className="z-10 glass-panel-enhanced p-6 sm:p-8 w-[90%] max-w-[450px] min-h-[400px] flex flex-col justify-between items-center text-center relative overflow-hidden"
+            className="z-10 glass-panel-enhanced p-8 sm:p-12 w-[95%] max-w-[500px] min-h-[450px] flex flex-col justify-between items-center text-center relative overflow-hidden"
           >
             {/* Gender-based gradient accent */}
             <div className={`absolute -top-20 -right-20 w-40 h-40 blur-[100px] rounded-full transition-all duration-1000 ${currentGender === 'male' ? 'bg-blue-500/40' : 'bg-fuchsia-500/40'}`} />
@@ -218,17 +219,17 @@ const App = () => {
   );
 };
 
-const SelectionCard = ({ icon, label, onClick, color, accent }) => (
+const SelectionHalf = ({ icon, label, onClick, color, accent }) => (
   <motion.button 
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
     onClick={onClick}
-    className={`glass-panel-enhanced flex flex-col items-center justify-center p-6 sm:p-8 transition-all duration-500 group border-white/10 ${color} rounded-3xl`}
+    className={`glass-panel-enhanced flex flex-col items-center justify-center p-12 transition-all duration-500 group border-white/20 cursor-pointer ${color} rounded-none`}
   >
-    <div className={`mb-4 transition-transform duration-500 group-hover:scale-125 group-active:scale-90 ${accent} opacity-60 group-hover:opacity-100`}>
+    <div className={`mb-6 transition-transform duration-500 group-hover:scale-125 group-active:scale-90 ${accent} opacity-70 group-hover:opacity-100`}>
       {icon}
     </div>
-    <span className="text-[10px] uppercase tracking-[0.2em] font-bold opacity-40 group-hover:opacity-100 transition-opacity">
+    <span className="display-font text-4xl uppercase tracking-[0.1em] font-bold opacity-50 group-hover:opacity-100 transition-opacity">
       {label}
     </span>
   </motion.button>
